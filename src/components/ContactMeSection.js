@@ -29,8 +29,9 @@ const LandingSection = () => {
       type:"hireMe",
       comment:"",
     },
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: (values,{setSubmitting}) => {
+      submit('link',values);
+      setSubmitting(false);
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required("Required"),
@@ -43,8 +44,12 @@ const LandingSection = () => {
 
 
   const {values, errors,touched, getFieldProps,handleSubmit} = formik
+  useEffect(() => {
+    if(!isLoading && response){
+      onOpen(response.type,response.message)
+    }
+  },[isLoading]);
 
-  console.log(values)
   return (
     <FullScreenSection
     isDarkBackground
