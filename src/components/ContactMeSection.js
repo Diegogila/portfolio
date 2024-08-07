@@ -22,22 +22,15 @@ const LandingSection = () => {
   const { onOpen } = useAlertContext();
 
 
-  const {
-    values,
-    errors,
-    touched,
-    getFieldProps,
-    handleSubmit,
-    } = useFormik({
+  const formik = useFormik({
     initialValues: {
       firstName:"",
       email:"",
-      type:"",
+      type:"hireMe",
       comment:"",
     },
     onSubmit: (values) => {
-      submit(values)
-      console.log("Hello")
+      alert(JSON.stringify(values, null, 2));
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required("Required"),
@@ -47,11 +40,11 @@ const LandingSection = () => {
 
     }),
   });
-  useEffect(() => {
-    console.log(response)
-  },[response]);
 
 
+  const {values, errors,touched, getFieldProps,handleSubmit} = formik
+
+  console.log(values)
   return (
     <FullScreenSection
     isDarkBackground
@@ -64,7 +57,10 @@ const LandingSection = () => {
           Contact me
         </Heading>
         <Box p={6} rounded="md" w="100%">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={(e) => {
+            e.preventDefault()
+            handleSubmit(e)
+            }}>
             <VStack spacing={4}>
               <FormControl isInvalid={touched.firstName && errors.firstName}>
                 <FormLabel htmlFor="firstName">Name</FormLabel>
