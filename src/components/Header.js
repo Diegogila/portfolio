@@ -37,19 +37,23 @@ const socials = [
 
 const Header = () => {
   const headerRef = useRef(null)
-  
-  
+  let lastScroll = 0;
   
   useEffect(() => {
-    const handleScroll = () => {
-        console.log(headerRef.current.style)
+    const handleScroll = (e) => {
+      let {scrollY} = window;
+      if(scrollY > lastScroll){
+        headerRef.current.style.transform = "translateY(-200px)"
+      } else {
+        headerRef.current.style.transform = "translateY(0)"
+      }
+      lastScroll = scrollY <= 0 ? 0 : scrollY;
     };
 
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, {passive:true})
     return () => {
       window.removeEventListener('scroll', handleScroll)
     };
-
   },[]);
 
 
