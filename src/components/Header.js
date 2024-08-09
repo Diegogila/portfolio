@@ -91,7 +91,7 @@ const Header = () => {
         >
           <nav>
             {/* Add social media links based on the `socials` data */}
-            <HStack>
+            <HStack spacing={6}>
               {socials.map((sm,index) => {
                 return (
                   <a key={index} href={sm.url}>

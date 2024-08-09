@@ -29,9 +29,8 @@ const LandingSection = () => {
       type:"hireMe",
       comment:"",
     },
-    onSubmit: (values,{setSubmitting,resetForm}) => {
+    onSubmit: (values,{setSubmitting}) => {
       submit('link',values);
-      resetForm();
       setSubmitting(false);
     },
     validationSchema: Yup.object({
@@ -44,10 +43,11 @@ const LandingSection = () => {
   });
 
 
-  const {values, errors,touched, getFieldProps,handleSubmit} = formik
+  const {resetForm, errors,touched, getFieldProps,handleSubmit} = formik
   useEffect(() => {
     if(!isLoading && response){
       onOpen(response.type,response.message)
+      if (response.type != 'error') {resetForm();}
     }
   },[isLoading]);
 
@@ -107,7 +107,7 @@ const LandingSection = () => {
                 />
                 <FormErrorMessage>{errors.comment}</FormErrorMessage>
               </FormControl>
-              <Button type="submit" colorScheme="purple" width="full">
+              <Button type="submit" colorScheme="purple" width="full" isLoading={isLoading}>
                 Submit
               </Button>
             </VStack>
